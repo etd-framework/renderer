@@ -14,7 +14,7 @@
     }
   ],
   "require": {
-    "joomla/application: "2.0.*@dev"
+    "joomla/application": "2.0.*@dev"
   },
   "autoload": {
     "psr-4": {
