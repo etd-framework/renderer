@@ -15,7 +15,10 @@
   ],
   "require": {
     "joomla/application": "2.0.*@dev",
-    "etdsolutions/language": "@dev"
+    "joomla/di": "2.0.*@dev",
+    "etdsolutions/language": "@dev",
+    "etdsolutions/utility": "@dev",
+    "etdsolutions/user": "@dev"
   },
   "autoload": {
     "psr-4": {
