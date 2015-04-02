@@ -16,6 +16,7 @@ use Joomla\Application\AbstractApplication;
 use EtdSolutions\Language\LanguageFactory;
 use Joomla\DI\Container;
 use Joomla\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Classe pour étendre Twig
@@ -112,6 +113,7 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('stranslate', array($this, 'stranslate')),
             new \Twig_SimpleFunction('plural', array($this, 'plural')),
             new \Twig_SimpleFunction('authorise', array($this, 'authorise')),
+            new \Twig_SimpleFunction('arrayToString', array($this, 'arrayToString')),
             new \Twig_SimpleFunction('addDomReadyJS', array($this, 'addDomReadyJS')),
             new \Twig_SimpleFunction('addRequireJSModule', array($this, 'addRequireJSModule')),
             new \Twig_SimpleFunction('requireJS', array($this, 'requireJS')),
@@ -128,6 +130,7 @@ class TwigExtension extends \Twig_Extension {
 
         return [
             new \Twig_SimpleFilter('basename', 'basename'),
+            new \Twig_SimpleFilter('str_repeat', 'str_repeat'),
             new \Twig_SimpleFilter('get_class', 'get_class'),
             new \Twig_SimpleFilter('json_decode', 'json_decode'),
             new \Twig_SimpleFilter('var_dump', 'var_dump'),
@@ -308,6 +311,10 @@ class TwigExtension extends \Twig_Extension {
 
         return $this->requirejs->printRequireJS($this->app);
 
+    }
+
+    public function arrayToString(array $array, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false) {
+        return ArrayHelper::toString($array, $inner_glue, $outer_glue, $keepOuterKey);
     }
 
     /**
