@@ -117,7 +117,10 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('addDomReadyJS', array($this, 'addDomReadyJS')),
             new \Twig_SimpleFunction('addRequireJSModule', array($this, 'addRequireJSModule')),
             new \Twig_SimpleFunction('requireJS', array($this, 'requireJS')),
-            new \Twig_SimpleFunction('printRequireJS', array($this, 'printRequireJS'), array('is_safe' => array('html')))
+            new \Twig_SimpleFunction('printRequireJS', array($this, 'printRequireJS'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('getUserAvatar', array($this, 'getUserAvatar'), array("is_safe" => array("html"))),
+            new \Twig_SimpleFunction('getUserAvatarURI', array($this, 'getUserAvatarURI')),
+            new \Twig_SimpleFunction('getUserProfileValue', array($this, 'getUserProfileValue'))
         ];
     }
 
@@ -313,8 +316,84 @@ class TwigExtension extends \Twig_Extension {
 
     }
 
+    /**
+     * Méthode pour convertir un array en une chaine.
+     *
+     * @param array  $array
+     * @param string $inner_glue
+     * @param string $outer_glue
+     * @param bool   $keepOuterKey
+     *
+     * @return string
+     */
     public function arrayToString(array $array, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false) {
         return ArrayHelper::toString($array, $inner_glue, $outer_glue, $keepOuterKey);
+    }
+
+    /**
+     * Renvoi le code HTML de l'avatar dans la bonne taille.
+     *
+     * @param int    $user_id    L'identifiant de l'utilisateur.
+     * @param string $size       La taille de l'avatar.
+     * @param array  $attributes Un tableau d'attributs à attache au code HTML.
+     * @param bool   $link       Crée un lien vers la page du profil.
+     *
+     * @return string URI vers l'avatar.
+     */
+    public function getUserAvatar($user_id = null, $size = '40', $attributes = array(), $link = false) {
+
+        $user = $this->user->load($user_id);
+
+        $class = "avatar avatar-user avatar-" . $size;
+        if (array_key_exists('class', $attributes)) {
+            $class .= " " . $attributes['class'];
+        }
+        $attributes['class'] = $class;
+        $attributes = ArrayHelper::toString($attributes);
+
+        $html = '';
+
+        if ($link) {
+            $html = '<a href="' . $this->app->get('uri.base.path') . 'user/display/' . $user->username . '">';
+        }
+
+        $html .= '<img ' . $attributes . ' src="' . $this->getUserAvatarURI($user_id, $size) . '" alt="' . htmlspecialchars($user->name) . '">';
+
+        if ($link) {
+            $html .= '</a>';
+        }
+
+        return $html;
+
+    }
+
+    /**
+     * Renvoi l'URI vers l'avatar dans la bonne taille.
+     *
+     * @param int    $user_id L'identifiant de l'utilisateur.
+     * @param string $size    La taille de l'avatar.
+     *
+     * @return string URI vers l'avatar.
+     */
+    public function getUserAvatarURI($user_id = null, $size = '40') {
+
+        $user = $this->user->load($user_id);
+
+        if (!$user) {
+            return false;
+        }
+
+        // On construit le chemin vers l'image.
+        $image_path = "images/users/" . $user->profile->avatarFile . "_" . $size . ".png";
+
+        // On contrôle que l'avatar existe.
+        if (!file_exists(JPATH_MEDIA . "/" . $image_path)) {
+            $image_path = "images/nobody_" . $size . ".png";
+        }
+
+        // On retourne la bonne URI.
+        return $this->app->get('uri.media.path') . $image_path;
+
     }
 
     /**
