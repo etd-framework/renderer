@@ -11,6 +11,7 @@ namespace EtdSolutions\Renderer;
 
 use EtdSolutions\User\User;
 use EtdSolutions\Utility\DateUtility;
+use EtdSolutions\Utility\LocaleUtility;
 use EtdSolutions\Utility\RequireJSUtility;
 use Joomla\Application\AbstractApplication;
 use EtdSolutions\Language\LanguageFactory;
@@ -141,7 +142,8 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('translate', array($this, 'translate')),
             new \Twig_SimpleFilter('stranslate', array($this, 'stranslate')),
             new \Twig_SimpleFilter('plural', array($this, 'plural')),
-            new \Twig_SimpleFilter('locale_date', array($this, 'locale_date'))
+            new \Twig_SimpleFilter('locale_date', array($this, 'locale_date')),
+            new \Twig_SimpleFilter('money_format', array($this, 'money_format'))
         ];
     }
 
@@ -252,6 +254,20 @@ class TwigExtension extends \Twig_Extension {
 
         $date_utility = new DateUtility($this->app->get('timezone'));
         return $date_utility->format($date, $format);
+
+    }
+
+    /**
+     * Méthode pour formater une chaine monétaire.
+     *
+     * @param string $number La chaine à formater.
+     * @param string $format Le format.
+     * @return string La chaine formatée.
+     */
+    public function money_format($number, $format = '%!i') {
+
+        $utility = new LocaleUtility();
+        return $utility->money_format($number, $format);
 
     }
 
