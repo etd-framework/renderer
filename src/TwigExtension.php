@@ -113,6 +113,7 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('translate', array($this, 'translate')),
             new \Twig_SimpleFunction('stranslate', array($this, 'stranslate')),
             new \Twig_SimpleFunction('plural', array($this, 'plural')),
+            new \Twig_SimpleFunction('script', array($this, 'script')),
             new \Twig_SimpleFunction('authorise', array($this, 'authorise')),
             new \Twig_SimpleFunction('arrayToString', array($this, 'arrayToString')),
             new \Twig_SimpleFunction('addDomReadyJS', array($this, 'addDomReadyJS')),
@@ -227,6 +228,19 @@ class TwigExtension extends \Twig_Extension {
 
         return call_user_func_array(array($this->text, 'plural'), func_get_args());
 
+    }
+
+    /**
+     * Translate a string into the current language and stores it in the JavaScript language store.
+     *
+     * @param   string   $string                The Text key.
+     * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
+     * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
+     *
+     * @return  array
+     */
+    public function script($string = null, $jsSafe = true, $interpretBackSlashes = true) {
+        return $this->requirejs->script($string, $jsSafe, $interpretBackSlashes);
     }
 
     /**
