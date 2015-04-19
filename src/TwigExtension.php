@@ -414,11 +414,11 @@ class TwigExtension extends \Twig_Extension {
         }
 
         // On construit le chemin vers l'image.
-        $image_path = "images/users/" . $user->profile->avatarFile . "_" . $size . ".png";
+        $image_path = "images/users/" . $user->profile->avatarFile . "_" . $size . ".jpg";
 
         // On contrôle que l'avatar existe.
         if (!file_exists(JPATH_MEDIA . "/" . $image_path)) {
-            $image_path = "images/nobody_" . $size . ".png";
+            $image_path = "images/nobody_" . $size . ".jpg";
         }
 
         // On retourne la bonne URI.
