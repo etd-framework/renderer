@@ -427,6 +427,29 @@ class TwigExtension extends \Twig_Extension {
     }
 
     /**
+     * Méthode pour récupérer la valeur d'une propriété dans le profil de l'utilisateur.
+     *
+     * @param string $property La propriété à récupérer
+     * @param null   $user     L'objet utilisateur ou une clé primaire ou rien pour l'utilisateur courant
+     *
+     * @return mixed Null si la propriété n'existe pas, sa valeur sinon.
+     */
+    public function getUserProfileValue($property, $user = null) {
+        // Si c'est une clé primaire, on récupère l'objet.
+        if (is_numeric($user)) {
+            $user = $this->container->get('user')->load($user);
+        } elseif (!is_object($user)) { // Si ce n'est pas un objet, on prend l'utilisateur courant.
+            $user = $this->container->get('user')->load();
+        }
+        // On teste la présence de la propriété
+        if (property_exists($user, 'profile') && property_exists($user->profile, $property)) {
+            return $user->profile->$property;
+        }
+        // On retourne null par défaut.
+        return null;
+    }
+
+    /**
      * Méthode pour trier les messages de l'appli.
      *
      * @return array
