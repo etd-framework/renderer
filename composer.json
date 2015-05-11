@@ -18,7 +18,8 @@
     "joomla/di": "2.0.*@dev",
     "etdsolutions/language": "@dev",
     "etdsolutions/utility": "@dev",
-    "etdsolutions/user": "@dev"
+    "etdsolutions/user": "@dev",
+    "etdsolutions/acl": "@dev"
   },
   "autoload": {
     "psr-4": {

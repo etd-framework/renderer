@@ -9,12 +9,14 @@
 
 namespace EtdSolutions\Renderer;
 
+use EtdSolutions\Acl\Acl;
 use EtdSolutions\User\User;
 use EtdSolutions\Utility\DateUtility;
 use EtdSolutions\Utility\LocaleUtility;
 use EtdSolutions\Utility\RequireJSUtility;
 use Joomla\Application\AbstractApplication;
 use EtdSolutions\Language\LanguageFactory;
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\Language\Text;
 use Joomla\Utilities\ArrayHelper;
@@ -30,6 +32,13 @@ class TwigExtension extends \Twig_Extension {
      * @var    AbstractApplication
      */
     private $app;
+
+    /**
+     * L'objet database
+     *
+     * @var    DatabaseDriver
+     */
+    private $db;
 
     /**
      * L'objet text
@@ -60,6 +69,7 @@ class TwigExtension extends \Twig_Extension {
      */
     public function __construct(AbstractApplication $app, $container) {
         $this->app       = $app;
+        $this->db        = $container->get('db');
         $this->text      = (new LanguageFactory)->getText();
         $this->user      = $container->get('user')->load();
         $this->requirejs = new RequireJSUtility();
@@ -115,6 +125,7 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('plural', array($this, 'plural')),
             new \Twig_SimpleFunction('script', array($this, 'script')),
             new \Twig_SimpleFunction('authorise', array($this, 'authorise')),
+            new \Twig_SimpleFunction('authoriseGroup', array($this, 'authoriseGroup')),
             new \Twig_SimpleFunction('arrayToString', array($this, 'arrayToString')),
             new \Twig_SimpleFunction('addDomReadyJS', array($this, 'addDomReadyJS')),
             new \Twig_SimpleFunction('addRequireJSModule', array($this, 'addRequireJSModule')),
@@ -254,6 +265,23 @@ class TwigExtension extends \Twig_Extension {
     public function authorise($asset, $user_id = null) {
 
         return $this->user->load($user_id)->authorise($asset);
+
+    }
+
+    /**
+     * Méthode pour contrôler si un groupe a le droit d'effectuer une action.
+     *
+     * @param   int    $group_id L'identifiant du gorupe demandeur.
+     * @param   string $section  La section de l'application à contrôler.
+     * @param   string $action   L'action de l'application à contrôler.
+     *
+     * @return  boolean  True si autorisé, false sinon.
+     */
+    public function authoriseGroup($group_id, $section, $action) {
+
+        $acl = Acl::getInstance($this->db);
+
+        return $acl->checkGroup($group_id, $section, $action);
 
     }
 
