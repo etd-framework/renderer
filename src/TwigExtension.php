@@ -119,6 +119,7 @@ class TwigExtension extends \Twig_Extension {
         return [
             new \Twig_SimpleFunction('sprintf', 'sprintf'),
             new \Twig_SimpleFunction('var_dump', 'var_dump'),
+            new \Twig_SimpleFunction('base64_encode', 'base64_encode'),
             new \Twig_SimpleFunction('stripJRoot', array($this, 'stripJRoot')),
             new \Twig_SimpleFunction('translate', array($this, 'translate')),
             new \Twig_SimpleFunction('stranslate', array($this, 'stranslate')),
@@ -133,7 +134,16 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('printRequireJS', array($this, 'printRequireJS'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('getUserAvatar', array($this, 'getUserAvatar'), array("is_safe" => array("html"))),
             new \Twig_SimpleFunction('getUserAvatarURI', array($this, 'getUserAvatarURI')),
-            new \Twig_SimpleFunction('getUserProfileValue', array($this, 'getUserProfileValue'))
+            new \Twig_SimpleFunction('getUserProfileValue', array($this, 'getUserProfileValue')),
+            new \Twig_SimpleFunction('getUsed', function() {
+                $lang = (new LanguageFactory)->getLanguage();
+                return [
+                    'used' => $lang->getUsed(),
+                    'orphans' => $lang->getOrphans(),
+                    'error' => $lang->getErrorFiles(),
+                    'paths' => $lang->getPaths()
+                ];
+            })
         ];
     }
 
