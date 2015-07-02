@@ -254,14 +254,15 @@ class TwigExtension extends \Twig_Extension {
     /**
      * Translate a string into the current language and stores it in the JavaScript language store.
      *
-     * @param   string   $string                The Text key.
-     * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
-     * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
+     * @param   string   $string                The string to translate.
+     * @param   array    $parameters            Array of parameters for the string
+     * @param   boolean  $jsSafe                True to escape the string for JavaScript output
+     * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
      *
      * @return  array
      */
-    public function script($string = null, $jsSafe = true, $interpretBackSlashes = true) {
-        return $this->requirejs->script($string, $jsSafe, $interpretBackSlashes);
+    public function script($string = null, $parameters = [], $jsSafe = true, $interpretBackSlashes = true) {
+        return $this->requirejs->script($string, $parameters, $jsSafe, $interpretBackSlashes);
     }
 
     /**
