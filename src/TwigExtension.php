@@ -360,6 +360,12 @@ class TwigExtension extends \Twig_Extension {
 
     }
 
+    public function addRequireMap($prefix, $old, $new) {
+
+        $this->requirejs->addRequireMap($prefix, $old, $new);
+
+    }
+
     /**
      * Ajoute du JavaScript en ligne exécuté dans le contexte RequireJS.
      * Il sera exécuté après que le DOM du document soit prêt.
