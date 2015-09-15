@@ -135,6 +135,7 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('getUserAvatar', array($this, 'getUserAvatar'), array("is_safe" => array("html"))),
             new \Twig_SimpleFunction('getUserAvatarURI', array($this, 'getUserAvatarURI')),
             new \Twig_SimpleFunction('getUserProfileValue', array($this, 'getUserProfileValue')),
+            new \Twig_SimpleFunction('localeconv', array($this, 'localeconv')),
             new \Twig_SimpleFunction('getUsed', function() {
                 $lang = (new LanguageFactory)->getLanguage();
                 return [
@@ -321,6 +322,15 @@ class TwigExtension extends \Twig_Extension {
 
         $utility = new LocaleUtility();
         return $utility->money_format($number, $format);
+
+    }
+
+    /**
+     * @return array
+     */
+    public function localeconv() {
+
+        return (new LocaleUtility())->localeconv();
 
     }
 
