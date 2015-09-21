@@ -70,7 +70,7 @@ class TwigExtension extends \Twig_Extension {
     public function __construct(AbstractApplication $app, $container) {
         $this->app       = $app;
         $this->db        = $container->get('db');
-        $this->text      = (new LanguageFactory)->getText();
+        $this->text      = $container->get('language')->getText();
         $this->user      = $container->get('user')->load();
         $this->requirejs = new RequireJSUtility();
     }
