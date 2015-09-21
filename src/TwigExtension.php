@@ -185,20 +185,16 @@ class TwigExtension extends \Twig_Extension {
     /**
      * Traduit le string dans la langue courrante.
      *
-     * @param   string   $string                Le string à traduite.
-     * @param   boolean  $jsSafe                Array containing data to make the string safe for JavaScript output
+     * @param   string   $string                The string to translate.
+     * @param   array    $parameters            Array of parameters for the string
+     * @param   boolean  $jsSafe                True to escape the string for JavaScript output
      * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
-     * @param   boolean  $script                To indicate that the string will be push in the javascript language store
      *
      * @return  string  Le string traduit ou la clé si $script est true
      */
-    public function translate($string, $jsSafe = false, $interpretBackSlashes = true, $script = false) {
+    public function translate($string, $parameters = array(), $jsSafe = false, $interpretBackSlashes = true) {
 
-        return $this->text->translate($string, [
-            "jsSafe" => $jsSafe,
-            "interpretBackSlashes" => $interpretBackSlashes,
-            "script" => $script
-        ]);
+        return $this->text->translate($string, $parameters, $jsSafe, $interpretBackSlashes);
     }
 
     /**
