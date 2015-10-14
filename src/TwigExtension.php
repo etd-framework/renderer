@@ -55,6 +55,13 @@ class TwigExtension extends \Twig_Extension {
     private $user;
 
     /**
+     * Le container DI
+     *
+     * @var    Container
+     */
+    private $container;
+
+    /**
      * L'objet RequireJSUtility
      *
      * @var RequireJSUtility
@@ -69,6 +76,7 @@ class TwigExtension extends \Twig_Extension {
      */
     public function __construct(AbstractApplication $app, $container) {
         $this->app       = $app;
+        $this->container = $container;
         $this->db        = $container->get('db');
         $this->text      = $container->get('language')->getText();
         $this->user      = $container->get('user')->load();
@@ -96,6 +104,7 @@ class TwigExtension extends \Twig_Extension {
             'uri'      => $this->app->get('uri'),
             'sitename' => $this->app->get('sitename'),
             'debug'    => $this->app->get('debug'),
+            'config'   => $this->container->get('config'),
             'user'     => $this->user,
             'lang'     => (new LanguageFactory)->getLanguage()->get('iso')
         ];
