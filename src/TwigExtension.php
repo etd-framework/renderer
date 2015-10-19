@@ -474,10 +474,10 @@ class TwigExtension extends \Twig_Extension {
         }
 
         // On construit le chemin vers l'image.
-        $image_path = "images/users/" . $user->profile->avatarFile . "_" . $size . ".jpg";
+        $image_path = property_exists($user->profile, 'avatarFile') ? "images/users/" . $user->profile->avatarFile . "_" . $size . ".jpg" : false;
 
         // On contrôle que l'avatar existe.
-        if (!file_exists(JPATH_MEDIA . "/" . $image_path)) {
+        if ($image_path === false || !file_exists(JPATH_MEDIA . "/" . $image_path)) {
             $image_path = "images/nobody_" . $size . ".jpg";
         }
 
