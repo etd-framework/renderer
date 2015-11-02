@@ -138,6 +138,7 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('authoriseGroup', array($this, 'authoriseGroup')),
             new \Twig_SimpleFunction('arrayToString', array($this, 'arrayToString')),
             new \Twig_SimpleFunction('addDomReadyJS', array($this, 'addDomReadyJS')),
+            new \Twig_SimpleFunction('addRequirePackage', array($this, 'addRequirePackage')),
             new \Twig_SimpleFunction('addRequireJSModule', array($this, 'addRequireJSModule')),
             new \Twig_SimpleFunction('requireJS', array($this, 'requireJS')),
             new \Twig_SimpleFunction('printRequireJS', array($this, 'printRequireJS'), array('is_safe' => array('html'))),
