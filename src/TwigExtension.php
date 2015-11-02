@@ -370,9 +370,9 @@ class TwigExtension extends \Twig_Extension {
 
     }
 
-    public function addRequirePackage($package) {
+    public function addRequirePackage($package, $location = null, $main = null) {
 
-        $this->requirejs->addRequirePackage($package);
+        $this->requirejs->addRequirePackage($package, $location, $main);
 
     }
 
