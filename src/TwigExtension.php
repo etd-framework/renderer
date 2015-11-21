@@ -104,6 +104,7 @@ class TwigExtension extends \Twig_Extension {
             'uri'      => $this->app->get('uri'),
             'sitename' => $this->app->get('sitename'),
             'debug'    => $this->app->get('debug'),
+            'input'    => $this->app->input,
             'config'   => $this->container->get('config'),
             'user'     => $this->user,
             'lang'     => (new LanguageFactory)->getLanguage()->get('iso')
