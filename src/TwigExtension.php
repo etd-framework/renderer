@@ -13,6 +13,7 @@ use EtdSolutions\Acl\Acl;
 use EtdSolutions\User\User;
 use EtdSolutions\Utility\DateUtility;
 use EtdSolutions\Utility\LocaleUtility;
+use EtdSolutions\Utility\PriceUtility;
 use EtdSolutions\Utility\RequireJSUtility;
 use Joomla\Application\AbstractApplication;
 use EtdSolutions\Language\LanguageFactory;
@@ -177,7 +178,8 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('stranslate', array($this, 'stranslate')),
             new \Twig_SimpleFilter('plural', array($this, 'plural')),
             new \Twig_SimpleFilter('locale_date', array($this, 'locale_date')),
-            new \Twig_SimpleFilter('money_format', array($this, 'money_format'))
+            new \Twig_SimpleFilter('money_format', array($this, 'money_format')),
+            new \Twig_SimpleFilter('price_round', array($this, 'price_round'))
         ];
     }
 
@@ -329,6 +331,21 @@ class TwigExtension extends \Twig_Extension {
 
         $utility = new LocaleUtility();
         return $utility->money_format($number, $format);
+
+    }
+
+    /**
+     * Méthode pour formater une chaine monétaire.
+     *
+     * @param float $number La chaine à formater.
+     * @param int $precision Le format.
+     * @param int $method Le format.
+     * @return string La chaine formatée.
+     */
+    public function price_round($number, $precision = null, $method = null) {
+
+        $utility = new PriceUtility($this->container->get('config'));
+        return $utility->round($number, $precision, $method);
 
     }
 
