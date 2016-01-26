@@ -136,6 +136,7 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('stranslate', array($this, 'stranslate')),
             new \Twig_SimpleFunction('plural', array($this, 'plural')),
             new \Twig_SimpleFunction('script', array($this, 'script')),
+            new \Twig_SimpleFunction('keepSession', array($this, 'keepSession')),
             new \Twig_SimpleFunction('authorise', array($this, 'authorise')),
             new \Twig_SimpleFunction('authoriseGroup', array($this, 'authoriseGroup')),
             new \Twig_SimpleFunction('arrayToString', array($this, 'arrayToString')),
@@ -273,6 +274,13 @@ class TwigExtension extends \Twig_Extension {
      */
     public function script($string = null, $parameters = [], $jsSafe = true, $interpretBackSlashes = true) {
         return $this->requirejs->script($string, $parameters, $jsSafe, $interpretBackSlashes);
+    }
+
+    /**
+     * Garde la session active.
+     */
+    public function keepSession() {
+        $this->requirejs->keepSession();
     }
 
     /**
