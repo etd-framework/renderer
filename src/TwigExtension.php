@@ -80,7 +80,9 @@ class TwigExtension extends \Twig_Extension {
         $this->container = $container;
         $this->db        = $container->get('db');
         $this->text      = $container->get('language')->getText();
-        $this->user      = $container->get('user')->load();
+        if ($container->has('user')) {
+            $this->user = $container->get('user')->load();
+        }
         $this->requirejs = new RequireJSUtility();
     }
 
