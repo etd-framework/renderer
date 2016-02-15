@@ -133,6 +133,7 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFunction('sprintf', 'sprintf'),
             new \Twig_SimpleFunction('var_dump', 'var_dump'),
             new \Twig_SimpleFunction('base64_encode', 'base64_encode'),
+            new \Twig_SimpleFunction('base64_decode', 'base64_decode'),
             new \Twig_SimpleFunction('stripJRoot', array($this, 'stripJRoot')),
             new \Twig_SimpleFunction('translate', array($this, 'translate')),
             new \Twig_SimpleFunction('stranslate', array($this, 'stranslate')),
