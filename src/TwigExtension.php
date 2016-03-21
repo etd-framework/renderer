@@ -182,6 +182,7 @@ class TwigExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('stranslate', array($this, 'stranslate')),
             new \Twig_SimpleFilter('plural', array($this, 'plural')),
             new \Twig_SimpleFilter('locale_date', array($this, 'locale_date')),
+            new \Twig_SimpleFilter('move_date', array($this, 'move_date')),
             new \Twig_SimpleFilter('money_format', array($this, 'money_format')),
             new \Twig_SimpleFilter('price_round', array($this, 'price_round'))
         ];
@@ -328,6 +329,19 @@ class TwigExtension extends \Twig_Extension {
 
         $date_utility = new DateUtility($this->app->get('timezone'));
         return $date_utility->format($date, $format);
+
+    }
+
+    /**
+     * Méthode pour déplacer une date.
+     *
+     * @param \Joomla\Date\Date|string $date   La date à formater.
+     * @param string                   $interval L'interval.
+     * @return string La date formatée.
+     */
+    public function move_date($date, $interval) {
+
+        return DateUtility::moveDate($date, $interval);
 
     }
 
