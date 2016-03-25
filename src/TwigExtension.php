@@ -476,7 +476,11 @@ class TwigExtension extends \Twig_Extension {
      */
     public function getUserAvatar($user_id = null, $size = '40', $attributes = array(), $link = false) {
 
-        $user = $this->user->load($user_id);
+        try {
+            $user = $this->user->load($user_id);
+        } catch (\Exception $e) {
+            $user = false;
+        }
 
         $class = "avatar avatar-user avatar-" . $size;
         if (array_key_exists('class', $attributes)) {
@@ -484,6 +488,10 @@ class TwigExtension extends \Twig_Extension {
         }
         $attributes['class'] = $class;
         $attributes = ArrayHelper::toString($attributes);
+
+        if ($user === false) {
+            return '<img ' . $attributes . ' src="' . $this->app->get('uri.media.path') . 'images/nobody_' . $size . '.jpg">';
+        }
 
         $html = '';
 
@@ -511,9 +519,9 @@ class TwigExtension extends \Twig_Extension {
      */
     public function getUserAvatarURI($user_id = null, $size = '40') {
 
-        $user = $this->user->load($user_id);
-
-        if (!$user) {
+        try {
+            $user = $this->user->load($user_id);
+        } catch (\Exception $e) {
             return false;
         }
 
