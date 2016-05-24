@@ -106,6 +106,7 @@ class TwigExtension extends \Twig_Extension {
         $globals = [
             'uri'      => $this->app->get('uri'),
             'sitename' => $this->app->get('sitename'),
+            'meta_description' => $this->app->get('description'),
             'debug'    => $this->app->get('debug'),
             'input'    => $this->app->input,
             'config'   => $this->container->get('config'),
