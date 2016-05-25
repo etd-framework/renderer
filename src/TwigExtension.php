@@ -391,19 +391,24 @@ class TwigExtension extends \Twig_Extension {
      * @param string $script  Le script JS à ajouter.
      * @param bool   $onTop   Place le script en haut de la pile.
      * @param string $modules Des modules additionnels à charger par RequireJS.
+     * @param bool   $jQuery  Inclure jQuery dans les modules. True par défaut.
      *
      */
-    public function addDomReadyJS($script, $onTop = false, $modules = '') {
+    public function addDomReadyJS($script, $onTop = false, $modules = '', $jQuery = true) {
 
-        $module = "jquery";
+        $module = $jQuery === true ? "jquery" : "";
 
         if (!empty($modules)) {
             $module .= ", " . $modules;
         }
 
-        $module .= ", domReady!";
+        if (!empty($module)) {
+            $module .= ", ";
+        }
 
-        $this->addRequireJSModule('domReady', 'js/vendor/domReady');
+        $module .= "domReady!";
+
+        $this->addRequireJSModule('domReady', 'js/vendor/domReady.min');
         $this->requireJS($module, $script, $onTop);
 
     }
