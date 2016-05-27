@@ -398,11 +398,12 @@ class TwigExtension extends \Twig_Extension {
 
         $module = $jQuery === true ? "jquery" : "";
 
-        if (strlen($module) > 0) {
-            $module .= ", ";
-        }
-
         if (strlen($modules) > 0) {
+
+            if (strlen($module) > 0) {
+                $module .= ", ";
+            }
+
             $module .= $modules;
         }
 
